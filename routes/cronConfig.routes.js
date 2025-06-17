@@ -1,0 +1,26 @@
+const express = require("express");
+const router = express.Router();
+const CronConfig = require("../models/cronConfig.model");
+const { rescheduleCronTask } = require("../cronJobs/dynamicScheduler");
+
+router.get("/:taskName", async (req, res) => {
+  const config = await CronConfig.findOne({ taskName: req.params.taskName });
+  res.json(config);
+});
+
+router.put("/:taskName", async (req, res) => {
+  const { schedule, enabled } = req.body;
+  const taskName = req.params.taskName;
+
+  const updated = await CronConfig.findOneAndUpdate(
+    { taskName },
+    { $set: { schedule, enabled } },
+    { new: true, upsert: true }
+  );
+
+  await rescheduleCronTask(taskName);
+
+  res.json({ message: "Cron schedule updated", data: updated });
+});
+
+module.exports = router;
