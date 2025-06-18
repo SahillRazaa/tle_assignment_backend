@@ -68,6 +68,10 @@ const studentSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    enabled: {
+      type: Boolean,
+      default: true,
+    },
     registrationTimeSeconds: {
       type: Number,
       required: true,

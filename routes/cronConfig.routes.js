@@ -3,9 +3,14 @@ const router = express.Router();
 const CronConfig = require("../models/cronConfig.model");
 const { rescheduleCronTask } = require("../cronJobs/dynamicScheduler");
 
+router.get("/all", async (req, res) => {
+  const response = await CronConfig.find({});
+  res.status(201).json(response);
+});
+
 router.get("/:taskName", async (req, res) => {
   const config = await CronConfig.findOne({ taskName: req.params.taskName });
-  res.json(config);
+  res.status(201).json(config);
 });
 
 router.put("/:taskName", async (req, res) => {
