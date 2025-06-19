@@ -1,6 +1,6 @@
 const axios = require("axios");
-const Submission = require("../models/submission.model");
-const Student = require("../models/student.model");
+const Submission = require("../../models/submission.model");
+const Student = require("../../models/student.model");
 
 async function syncStudentSubmissions(handle) {
   try {

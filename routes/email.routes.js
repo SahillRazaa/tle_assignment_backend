@@ -6,7 +6,7 @@ const Student = require("../models/student.model");
 
 const today = new Date().toLocaleDateString();
 
-router.post("/reminder", async (req, res) => {
+router.post("/reminder", verifyAdmin, async (req, res) => {
   const { userData, subject } = req.body;
 
   if (!userData || !subject) {

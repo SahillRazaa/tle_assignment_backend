@@ -2,18 +2,19 @@ const express = require("express");
 const router = express.Router();
 const CronConfig = require("../models/cronConfig.model");
 const { rescheduleCronTask } = require("../cronJobs/dynamicScheduler");
+const verifyAdmin = require("../middleware/verifyAdmin");
 
-router.get("/all", async (req, res) => {
+router.get("/all", verifyAdmin, async (req, res) => {
   const response = await CronConfig.find({});
   res.status(201).json(response);
 });
 
-router.get("/:taskName", async (req, res) => {
+router.get("/:taskName", verifyAdmin, async (req, res) => {
   const config = await CronConfig.findOne({ taskName: req.params.taskName });
   res.status(201).json(config);
 });
 
-router.put("/:taskName", async (req, res) => {
+router.put("/:taskName", verifyAdmin, async (req, res) => {
   const { schedule, enabled } = req.body;
   const taskName = req.params.taskName;
 
