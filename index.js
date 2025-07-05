@@ -18,7 +18,12 @@ const CronConfig = require("./models/cronConfig.model");
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [process.env.CORS1, process.env.CORS2],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 app.get("/", (req, res) => {
